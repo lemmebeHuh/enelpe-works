@@ -98,16 +98,28 @@ export default function MovieDetail() {
 
         {/* Hasil Analisis AI */}
         {sentimentResult && (
-          <div className={`mt-6 p-4 rounded-xl border ${sentimentResult.label === "positive" ? "bg-green-50 border-green-200" : "bg-red-50 border-red-200"}`}>
-            <h3 className="font-bold text-sm mb-1 text-gray-700">Hasil Deteksi AI:</h3>
-            <div className="flex items-center gap-3">
+          <div className={`mt-6 p-5 rounded-xl border shadow-sm ${sentimentResult.label === "positive" ? "bg-green-50 border-green-200" : "bg-red-50 border-red-200"}`}>
+            <h3 className="font-bold text-sm mb-3 text-gray-700 border-b border-gray-200/50 pb-2">
+              🤖 Hasil Deteksi AI
+            </h3>
+            
+            <div className="flex flex-col md:flex-row md:items-center gap-4 mb-3">
               <span className={`text-2xl font-black uppercase tracking-wider ${sentimentResult.label === "positive" ? "text-green-600" : "text-red-600"}`}>
                 {sentimentResult.label === "positive" ? "POSITIF" : "NEGATIF"}
               </span>
-              <span className="text-sm text-gray-500">
-                (Akurasi: {(sentimentResult.score * 100).toFixed(1)}%)
+              <span className="text-sm font-medium bg-white px-3 py-1 rounded-full shadow-sm text-gray-600">
+                Akurasi: {(sentimentResult.score * 100).toFixed(1)}%
+              </span>
+              <span className="text-sm font-medium bg-white px-3 py-1 rounded-full shadow-sm text-gray-600 capitalize">
+                Emosi: {sentimentResult.emosi_dominan}
               </span>
             </div>
+            
+            {sentimentResult.kesimpulan_ai && (
+              <p className="text-sm text-gray-600 italic bg-white/50 p-3 rounded-lg">
+                "{sentimentResult.kesimpulan_ai}"
+              </p>
+            )}
           </div>
         )}
       </div>

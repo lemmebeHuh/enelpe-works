@@ -1,63 +1,43 @@
 import { NextResponse } from "next/server";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export async function POST(request) {
   try {
     const { reviewText } = await request.json();
-    
-    // 1. Pembersihan Teks (Ubah ke huruf kecil dan hapus tanda baca)
-    const cleanText = reviewText.toLowerCase().replace(/[^\w\s]/gi, '');
-    const words = cleanText.split(/\s+/);
-    
-    // 2. Kamus Bobot (Lexicon)
-    const lexicon = {
-      "bagus": 2, "keren": 3, "suka": 2, "mantap": 3, "rekomendasi": 3, 
-      "menarik": 2, "epic": 3, "seru": 2, "juara": 3, "pecah": 3,
-      "jelek": -3, "buruk": -3, "bosan": -2, "lambat": -2, "kecewa": -3, 
-      "sampah": -4, "hambar": -2, "garing": -2, "aneh": -2, "ngantuk": -2
-    };
+    const apiKey = process.env.GEMINI_API_KEY;
 
-    // Kamus Pembalik Makna (Negasi)
-    const negations = ["tidak", "bukan", "kurang", "gak", "nggak", "tak", "jangan"];
-
-    let totalScore = 0;
-
-    // 3. Proses Algoritma
-    for (let i = 0; i < words.length; i++) {
-      let word = words[i];
-      
-      // Jika kata tersebut ada di dalam kamus bobot kita
-      if (lexicon[word]) {
-        let wordScore = lexicon[word];
-        
-        // Pengecekan Negasi: Cek apakah 1 kata SEBELUMNYA adalah kata negasi
-        if (i > 0 && negations.includes(words[i - 1])) {
-          wordScore = wordScore * -1; // Balikkan nilainya! (Positif jadi Negatif)
-        }
-        
-        totalScore += wordScore;
-      }
+    if (!apiKey) {
+      return NextResponse.json({ error: "API Key Gemini tidak terdeteksi." }, { status: 400 });
     }
 
-    // 4. Kalkulasi Hasil Akhir
-    let label = "neutral";
-    let confidence = 0.5;
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
 
-    if (totalScore > 0) {
-      label = "positive";
-      // Membuat persentase (score) dinamis berdasarkan besarnya total bobot
-      confidence = 0.70 + (Math.min(totalScore, 10) / 10) * 0.28; 
-    } else if (totalScore < 0) {
-      label = "negative";
-      confidence = 0.70 + (Math.min(Math.abs(totalScore), 10) / 10) * 0.28;
+    const prompt = `
+    Kamu adalah komentator film yang hobi julid tapi jujur. 
+    Tugasmu adalah menganalisis ulasan ini: "${reviewText}".
+    
+    Berikan respon yang lucu, sedikit sinis, tapi tetap asik diajak ngobrol. 
+    Wajib kembalikan jawaban HANYA dalam format JSON mentah dengan struktur:
+    {
+      "label": "positive atau negative",
+      "score": 0.85,
+      "emosi_dominan": "Gunakan variasi emosi yang lebih berwarna dan luas (misal: 'Kena Prank Marketing', 'Cinta Buta', 'Ngantuk Berjamaah', 'Gak Habis Fikri', 'Hampir Nangis')",
+      "kesimpulan_ai": "Berikan 1 kalimat komentar receh, lucu, atau sindiran halus yang bikin orang yang baca bergumam 'iya juga sih'"
     }
+    Jangan tulis apapun selain format JSON.
+    `;
 
-    // Delay bohongan agar UI terasa seperti memproses data berat
-    await new Promise((resolve) => setTimeout(resolve, 600));
+    const result = await model.generateContent(prompt);
+    const aiResponseText = await result.response.text();
+    
+    const cleanJson = aiResponseText.replace(/```json|```/g, "").trim();
+    const finalResult = JSON.parse(cleanJson);
 
-    return NextResponse.json([[{ label: label, score: confidence }]]);
+    return NextResponse.json([[finalResult]]);
 
   } catch (error) {
-    console.error("Error NLP Lokal:", error);
-    return NextResponse.json({ error: "Gagal memproses analisis sentimen." }, { status: 500 });
+    console.error("Error Gemini:", error);
+    return NextResponse.json({ error: "Gemini sedang pusing, coba lagi." }, { status: 500 });
   }
 }
