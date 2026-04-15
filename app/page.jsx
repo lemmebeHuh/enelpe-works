@@ -47,10 +47,10 @@ export default function Home() {
       <header className="mb-14 text-center md:text-left flex flex-col md:flex-row md:items-end justify-between border-b border-gray-100 pb-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-black mb-1">
-            Koleksi Terkini
+            ENELPE-WORKS
           </h1>
           <p className="text-gray-500 text-sm">
-            Pilih film dan biarkan AI menganalisis sentimen ulasanmu.
+            Menganalisis sentimen ulasan film.
           </p>
         </div>
       </header>
