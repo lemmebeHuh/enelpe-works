@@ -5,7 +5,7 @@
 ![Gemini API](https://img.shields.io/badge/Gemini_API-8E75B2?style=for-the-badge&logo=google&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 
-Enelpe Works adalah sebuah platform *Full-Stack* untuk menganalisis sentimen ulasan film berbahasa Indonesia. Proyek ini dibangun untuk memenuhi tugas mata kuliah *Natural Language Processing* (NLP).
+Enelpe Works adalah sebuah platform untuk menganalisis sentimen ulasan film berbahasa Indonesia. Proyek ini dibangun untuk memenuhi tugas mata kuliah *Natural Language Processing* (NLP).
 
 Sistem ini dirancang untuk mendeteksi apakah sebuah ulasan film bernada Positif atau Negatif, sekaligus mengekstrak emosi dominan dari teks yang diinputkan pengguna.
 
@@ -63,9 +63,3 @@ npm install
 npm run dev
 
 Buka http://localhost:3000 di browser Anda untuk melihat hasilnya.
-
-## License
-
-Dev: Sang Kala Aji
-Role Utama: Frontend Development, API Integration, & Model Training.
-[Kala-Works](https://kala-works.vercel.app/)
