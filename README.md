@@ -11,18 +11,18 @@ Sistem ini dirancang untuk mendeteksi apakah sebuah ulasan film bernada Positif 
 
 ---
 
-## 🗺️ Roadmap Pengembangan (Project Phasing)
+## Roadmap Pengembangan (Project Phasing)
 
 Proyek ini dikembangkan menggunakan pendekatan *iterative* untuk memastikan keandalan sistem secara menyeluruh:
 
-- ✅ **Tahap 1: Minimum Viable Product (MVP) - *Current Version***
+- **Tahap 1: Minimum Viable Product (MVP) - *Current Version***
   Membangun fondasi *Frontend* (Next.js), UI/UX responsif, dan integrasi *database* (Firebase). Fase ini menggunakan **Gemini API** sebagai *baseline LLM* untuk memastikan arsitektur pengiriman data dan respons AI berjalan lancar secara *real-time*.
-- ⏳ **Tahap 2: Local Model Integration - *In Progress***
+- **Tahap 2: Local Model Integration - *In Progress***
   Melatih (*training*) model *Machine Learning* mandiri menggunakan algoritma **Support Vector Machine (SVM)** dengan dataset ulasan film lokal (via Google Colab). Model `.pkl` ini nantinya akan di- *deploy* menggunakan FastAPI (Microservices) untuk menggantikan Gemini API.
 
 ---
 
-## ✨ Fitur Utama (v1.0)
+## Fitur Utama (v1.0)
 
 - **Analisis Sentimen Dinamis:** Menggunakan *Prompt Engineering* khusus pada model Generative AI untuk mengklasifikasikan sentimen dan mengekstrak emosi ulasan.
 - **Katalog Film Real-time:** Terintegrasi dengan Firebase Cloud Firestore untuk mengelola dan menampilkan daftar film secara dinamis.
@@ -30,7 +30,7 @@ Proyek ini dikembangkan menggunakan pendekatan *iterative* untuk memastikan kean
 
 ---
 
-## 🏗️ Arsitektur Sistem Saat Ini
+## Arsitektur Sistem Saat Ini
 
 1. **User Input:** Pengguna memilih film dan mengirimkan teks ulasan melalui antarmuka.
 2. **API Route:** Next.js mengolah permintaan melalui serverless function (`app/api/sentiment/route.js`).
@@ -39,7 +39,7 @@ Proyek ini dikembangkan menggunakan pendekatan *iterative* untuk memastikan kean
 
 ---
 
-## 🚀 Panduan Instalasi Lokal
+## Panduan Instalasi Lokal
 
 Untuk menjalankan proyek (Tahap 1) ini di laptop Anda:
 
@@ -64,8 +64,8 @@ npm run dev
 
 Buka http://localhost:3000 di browser Anda untuk melihat hasilnya.
 
+## License
 
 Dev: Sang Kala Aji
 Role Utama: Frontend Development, API Integration, & Model Training.
-
-Portofolio: [Kala Works](https://kala-works.vercel.app/)
+[Kala-Works](https://kala-works.vercel.app/)
